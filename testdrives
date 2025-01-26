@@ -1,0 +1,17 @@
+#pull and load spicepy library
+!pip install spiceypy
+import spiceypy as spice
+
+# Load the .bsp, .tls files
+spice.furnsh("mar097.bsp")
+spice.furnsh("naif0012.tls")
+
+#set et time usig UTC time
+utc_time = "2025-01-01T00:00:00"
+et_time = spice.utc2et(utc_time)
+#print(type(et_time))
+
+#get state of Mars, at et_time, J2000 reference frame (??), no abberations, observer at SUN
+#using spice.spkez function needs target mars and observer sun to be converted to integers
+state, lt = spice.spkez(spice.bodn2c('MARS'), et_time, 'J2000', 'NONE', spice.bodn2c('SUN'))
+print(state)
